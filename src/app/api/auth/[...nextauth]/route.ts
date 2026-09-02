@@ -1,13 +1,13 @@
 import bcrypt from "bcryptjs";
-import NextAuth from "next-auth";
+import NextAuth, { type NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { dbConnect } from "../../../../lib/db";
 import User from "../../../../models/User";
 
-const SUPER_USER_EMAIL = "ranaahmadranaahmad741@gmail.com";
+const SUPER_USER_EMAIL = process.env.SUPER_USER_EMAIL || "ranaahmadranaahmad741@gmail.com";
 
-const authOptions = {
+const authOptions: NextAuthConfig = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -20,18 +20,20 @@ const authOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
+        const email = credentials?.email as string | undefined;
+        const password = credentials?.password as string | undefined;
+        if (!email || !password) {
           return null;
         }
 
         await dbConnect();
-        const user = await User.findOne({ email: credentials.email.toLowerCase() });
+        const user = await User.findOne({ email: email.toLowerCase() });
 
         if (!user) {
           return null;
         }
 
-        const isValid = await bcrypt.compare(credentials.password, user.password);
+        const isValid = await bcrypt.compare(password, user.password);
         if (!isValid) {
           return null;
         }

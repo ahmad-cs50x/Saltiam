@@ -133,7 +133,7 @@ const Home = () => {
       </div>
 
       {/* Content Container */}
-      <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 relative z-10">
+      <div className="max-w-7xl mx-auto  mb-6 px-5 sm:px-8 lg:px-12 relative z-10">
         
         {/* Text Content */}
         <div className="text-center w-[100%] lg:text-left space-y-6 sm:space-y-8 order-2 lg:order-1">
