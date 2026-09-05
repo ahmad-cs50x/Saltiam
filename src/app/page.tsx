@@ -273,7 +273,7 @@ const Home = () => {
         }}
       >
         {/* Combined & Duplicated Set for Perfect Loop */}
-        {[...certifications, ...certifications].map((cert, index) => (
+        {[...certifications, ...certifications].map((cert: any, index: number) => (
           <div
             key={index}
             className="flex-shrink-0 w-52 sm:w-60 lg:w-72 bg-white rounded-3xl p-6"
@@ -300,7 +300,7 @@ const Home = () => {
 
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-6 px-0 sm:px-12">
           {featuredProducts.length > 0 ? (
-            featuredProducts.map((product) => (
+            featuredProducts.map((product: any) => (
               <Link key={product._id} href={`/productdetail/${product._id}`} className="block group">
                 <div className="bg-rose-200 p-1 sm:p-6 w-64 rounded-2xl shadow-lg h-full flex flex-col">
                   <div className="h-48 w-full bg-white rounded-xl mb-4 overflow-hidden flex items-center justify-center">
@@ -392,7 +392,7 @@ const Home = () => {
           </p>
 
           <div className="space-y-6">
-            {faqs.map((faq, index) => (
+            {faqs.map((faq: any, index: number) => (
               <div key={index} className="bg-rose-300 backdrop-blur-sm rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden">
                 <button onClick={() => toggleAnswer(index)}
                   className="w-full text-left p-5 hover:bg-rose-300/50 transition-all duration-300 flex justify-between items-center">

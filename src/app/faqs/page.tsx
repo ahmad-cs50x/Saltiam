@@ -79,7 +79,7 @@ const FAQs = () => {
 
           
           <div className="space-y-6">
-            {faqs.map((faq, index) => (
+            {faqs.map((faq: any, index: number) => (
               <div key={index} className=" ">
                 <button onClick={() => toggleAnswer(index)}
                   className="w-full text-left bg-[#ffd3b6]/80 backdrop-blur-sm p-5 cursor-pointer rounded-t-xl hover:bg-rose-200 transition-all duration-300 shadow-md hover:shadow-xl">

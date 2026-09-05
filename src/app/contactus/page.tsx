@@ -92,7 +92,7 @@ const ContactUs = () => {
                         </a>
                       ),
                     },
-                  ].map((item, index) => (
+                  ].map((item: any, index: number) => (
                     <div key={index} className="group flex flex-row items-start gap-5 p-6 rounded-2xl bg-gradient-to-r from-rose-50 to-rose-50 hover:from-rose-100 hover:to-rose-100 transition-all duration-300 border border-rose-200 hover:border-rose-400 hover:shadow-xl cursor-pointer">
                       {/* Icon - Left Side */}
                       <div className="flex-shrink-0">

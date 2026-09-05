@@ -120,7 +120,7 @@ const ViewBlog = () => {
           {blog.images && blog.images.length > 1 && (
             <div className="px-5 pb-10 sm:px-8 lg:px-12">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                {blog.images.slice(1).map((img, index) => (
+                {blog.images.slice(1).map((img: string, index: number) => (
                   <img
                     key={index}
                     src={`/uploads/${img}`}

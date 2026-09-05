@@ -186,7 +186,7 @@ export default function ProductDetailPage() {
               
               {/* Thumbnails (Top to bottom) */}
               <div className="flex sm:flex-col gap-3 overflow-x-auto sm:overflow-y-auto max-h-[450px] scrollbar-thin">
-                {images.map((img, idx) => (
+                {images.map((img: string, idx: number) => (
                   <button
                     key={idx}
                     onClick={() => setSelectedImageIndex(idx)}
@@ -262,7 +262,7 @@ export default function ProductDetailPage() {
                 {/* Rating and Reviews Summary */}
                 <div className="mt-3 flex items-center gap-2">
                   <div className="flex items-center text-amber-500">
-                    {[...Array(5)].map((_, i) => (
+                    {[...Array(5)].map((_: number, i: number) => (
                       <svg key={i} className={`h-4 w-4 ${i < Math.floor(avgRating) ? "fill-current" : "text-gray-300"}`} viewBox="0 0 20 20">
                         <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
                       </svg>
@@ -312,14 +312,14 @@ export default function ProductDetailPage() {
                 <p className="text-sm text-gray-500 italic">No reviews yet. Be the first to add one!</p>
               ) : (
                 <>
-                  {visibleReviews.map((rev) => (
+                  {visibleReviews.map((rev: any) => (
                     <div key={rev._id} className="border-b border-gray-100 pb-4 last:border-0">
                       <div className="flex items-center justify-between">
                         <h4 className="font-bold text-gray-900">{rev.userName}</h4>
                         <span className="text-xs text-gray-400">{new Date(rev.createdAt).toLocaleDateString()}</span>
                       </div>
                       <div className="flex items-center gap-1 my-1 text-amber-500">
-                        {[...Array(5)].map((_, i) => (
+                        {[...Array(5)].map((_: number, i: number) => (
                           <svg key={i} className={`h-3.5 w-3.5 ${i < rev.rating ? "fill-current" : "text-gray-300"}`} viewBox="0 0 20 20">
                             <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
                           </svg>
@@ -373,7 +373,7 @@ export default function ProductDetailPage() {
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-2">Rating</label>
                 <div className="flex items-center gap-1.5">
-                  {[1, 2, 3, 4, 5].map((star) => (
+                  {[1, 2, 3, 4, 5].map((star: number) => (
                     <button
                       key={star}
                       type="button"
@@ -429,7 +429,7 @@ export default function ProductDetailPage() {
           <section className="mt-16">
             <h2 className="text-3xl font-bold text-rose-800 mb-6">Similar Products</h2>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {visibleSimilarProducts.map((item) => (
+              {visibleSimilarProducts.map((item: any) => (
                 <Link
                   key={item._id}
                   href={`/productdetail/${item._id}`}
