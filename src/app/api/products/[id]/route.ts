@@ -1,0 +1,7 @@
+import { NextResponse } from "next/server";
+import { dbConnect } from "../../../../lib/db";
+import Product from "../../../../models/Product";
+import { errorResponse, readBody } from "../../../../lib/routeHelpers";
+export async function GET(_: Request, { params }: { params: Promise<{ id: string }> }) { try { await dbConnect(); const product = await Product.findById((await params).id).lean(); return product ? NextResponse.json(product) : NextResponse.json({ error: "Product not found." }, { status: 404 }); } catch (error) { return errorResponse(error, "Failed to load product."); } }
+export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) { try { const data = await readBody(request); await dbConnect(); const product = await Product.findByIdAndUpdate((await params).id, { ...data, updatedAt: new Date() }, { new: true, runValidators: true }); return product ? NextResponse.json(product) : NextResponse.json({ error: "Product not found." }, { status: 404 }); } catch (error) { return errorResponse(error, "Failed to update product."); } }
+export async function DELETE(_: Request, { params }: { params: Promise<{ id: string }> }) { try { await dbConnect(); const product = await Product.findByIdAndDelete((await params).id); return product ? NextResponse.json({ message: "Product deleted." }) : NextResponse.json({ error: "Product not found." }, { status: 404 }); } catch (error) { return errorResponse(error, "Failed to delete product."); } }
