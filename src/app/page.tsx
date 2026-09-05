@@ -273,7 +273,7 @@ const Home = () => {
         }}
       >
         {/* Combined & Duplicated Set for Perfect Loop */}
-        {[...certifications, ...certifications].map((cert, index) => (
+        {[...certifications, ...certifications].map((cert: any, index: number) => (
           <div
             key={index}
             className="flex-shrink-0 w-52 sm:w-60 lg:w-72 bg-white rounded-3xl p-6"
@@ -392,7 +392,7 @@ const Home = () => {
           </p>
 
           <div className="space-y-6">
-            {faqs.map((faq, index) => (
+            {faqs.map((faq: any, index: number) => (
               <div key={index} className="bg-rose-300 backdrop-blur-sm rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden">
                 <button onClick={() => toggleAnswer(index)}
                   className="w-full text-left p-5 hover:bg-rose-300/50 transition-all duration-300 flex justify-between items-center">

@@ -186,7 +186,7 @@ export default function ProductDetailPage() {
               
               {/* Thumbnails (Top to bottom) */}
               <div className="flex sm:flex-col gap-3 overflow-x-auto sm:overflow-y-auto max-h-[450px] scrollbar-thin">
-                {images.map((img, idx) => (
+                {images.map((img: string, idx: number) => (
                   <button
                     key={idx}
                     onClick={() => setSelectedImageIndex(idx)}
