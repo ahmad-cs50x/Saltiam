@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import { randomUUID } from "node:crypto";
 import NextAuth, { type NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
@@ -69,7 +70,7 @@ const authOptions: NextAuthConfig = {
             email,
             // Google-authenticated users do not use credentials login. Store a
             // random hash to satisfy the shared User schema safely.
-            password: await bcrypt.hash(`${crypto.randomUUID()}-${Date.now()}`, 10),
+            password: await bcrypt.hash(`${randomUUID()}-${Date.now()}`, 10),
             role: email === SUPER_USER_EMAIL ? "super" : "normal",
           });
         user.id = databaseUser._id.toString();
