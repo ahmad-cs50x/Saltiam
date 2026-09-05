@@ -9,15 +9,15 @@ import { Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight, List, List
 
 const EditBlog = () => {
   const { id } = useParams();
-  const titleRef = useRef(null);
-  const contentRef = useRef(null);
-  const imgInputRef = useRef(null);
-  const spacingMenuRef = useRef(null);
+  const titleRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const imgInputRef = useRef<HTMLInputElement>(null);
+  const spacingMenuRef = useRef<HTMLSelectElement>(null);
   const [fontSize, setFontSize] = useState(18);
-  const [bannerImage, setBannerImage] = useState(null);
+  const [bannerImage, setBannerImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
-  const [blog, setBlog] = useState(null);
+  const [blog, setBlog] = useState<any>(null);
   const router = useRouter();
 
   // Fetch blog data on mount
