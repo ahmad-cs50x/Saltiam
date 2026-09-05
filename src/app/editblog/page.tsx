@@ -9,15 +9,15 @@ import { Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight, List, List
 
 const EditBlog = () => {
   const { id } = useParams();
-  const titleRef = useRef(null);
-  const contentRef = useRef(null);
-  const imgInputRef = useRef(null);
-  const spacingMenuRef = useRef(null);
+  const titleRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const imgInputRef = useRef<HTMLInputElement>(null);
+  const spacingMenuRef = useRef<HTMLSelectElement>(null);
   const [fontSize, setFontSize] = useState(18);
-  const [bannerImage, setBannerImage] = useState(null);
+  const [bannerImage, setBannerImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
-  const [blog, setBlog] = useState(null);
+  const [blog, setBlog] = useState<any>(null);
   const router = useRouter();
 
   // Fetch blog data on mount
@@ -48,7 +48,7 @@ const EditBlog = () => {
     }
   }, [fetching, blog]);
 
-  const exec = (command, value = null) => {
+  const exec = (command: string, value: string | null = null) => {
     document.execCommand(command, false, value);
     contentRef.current?.focus();
   };
@@ -58,7 +58,7 @@ const EditBlog = () => {
     if (url) exec('createLink', url);
   };
 
-  const insertImage = (e) => {
+  const insertImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files[0];
     if (!file) return;
     const reader = new FileReader();
