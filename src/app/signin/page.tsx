@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
+import { signIn, getSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
@@ -27,7 +27,6 @@ const SignInPage = () => {
         redirect: false,
         email: formData.email,
         password: formData.password,
-        callbackUrl: formData.email.trim().toLowerCase() === "ranaahmadranaahmad741@gmail.com" ? "/secretpanel" : "/",
       });
 
       if (result?.error) {
@@ -42,8 +41,16 @@ const SignInPage = () => {
 
       if (result?.ok) {
         toast.success("✅ Sign in successful!");
+        let dest = "/";
+        try {
+          const session = await getSession();
+          const role = (session?.user as { role?: string } | undefined)?.role;
+          dest = role === "super" ? "/secretpanel" : "/";
+        } catch (err) {
+          console.error("Failed to load session role:", err);
+        }
         setTimeout(() => {
-          router.push(formData.email.trim().toLowerCase() === "ranaahmadranaahmad741@gmail.com" ? "/secretpanel" : "/");
+          router.push(dest);
         }, 1000);
         return;
       }

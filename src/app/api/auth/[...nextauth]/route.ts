@@ -74,6 +74,8 @@ const authOptions: NextAuthConfig = {
             role: (email === SUPER_USER_EMAIL || (await User.countDocuments()) === 0) ? "super" : "normal",
           });
         user.id = databaseUser._id.toString();
+        user.email = databaseUser.email;
+        (user as { role?: string }).role = databaseUser.role;
 
         return true;
       } catch (error) {
@@ -86,6 +88,19 @@ const authOptions: NextAuthConfig = {
         token.id = user.id;
         token.email = user.email;
         token.role = user.email === SUPER_USER_EMAIL ? "super" : (user as { role?: string }).role || "normal";
+      } else if (token.email) {
+        // Refresh the authoritative role from the database on every request so
+        // stale JWTs cannot lock users out of the admin panel.
+        try {
+          await dbConnect();
+          const dbUser = await User.findOne({ email: token.email });
+          if (dbUser) {
+            token.role = token.email === SUPER_USER_EMAIL ? "super" : dbUser.role || "normal";
+            token.name = dbUser.name || token.name;
+          }
+        } catch (error) {
+          console.error("Failed to refresh user role:", error);
+        }
       }
       return token;
     },

@@ -9,11 +9,11 @@ const Catalog = () => {
     { title: "Food Salt", img: "/1.png", link: "/categorypage?category=food-salt" },
     { title: "Sea Salt", img: "/2.png", link: "/categorypage?category=sea-salt" },
     { title: "Animal Salt", img: "/3.png", link: "/categorypage?category=animal-salt" },
-    { title: "Home & Decor", img: "/4.png", link: "/categorypage?category=home-decor" },
+    { title: "Salt Home", img: "/4.png", link: "/categorypage?category=salt-home" },
     { title: "Rock Salt", img: "/5.png", link: "/categorypage?category=rock-salt" },
     { title: "Salt Brick", img: "/6.png", link: "/categorypage?category=salt-brick" },
     { title: "Salt Lamps", img: "/7.png", link: "/categorypage?category=salt-lamps" },
-    { title: "Salt & Beauty", img: "/8.png", link: "/categorypage?category=salt-beauty" },
+    { title: "Salt Beauty", img: "/8.png", link: "/categorypage?category=salt-beauty" },
   ];
 
   return (
@@ -23,16 +23,16 @@ const Catalog = () => {
       <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-10 text-center sm:mb-12">
-          <div className="flex flex-row" >
+          <div className="flex flex-row justify-center" >
             {/* <Link
               href="/"
               className="flex flex-row mr-26 items-center text-xl font-semibold text-rose-700 hover:text-rose-800"
             >
               ← Back to Home
             </Link> */}
-            <p className="mb-2 text-sm font-medium uppercase tracking-[0.2em] text-rose-600/80">
-              Our Collection
-            </p>
+            <p className="mb-2 text-sm font-medium uppercase tracking-[0.2em] text-rose-600/80 text-center">
+                          Our Collection
+                        </p>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-rose-800 sm:text-4xl">
             Explore Our Products
@@ -43,7 +43,7 @@ const Catalog = () => {
         </div>
 
         {/* Grid — tighter gaps + smaller cards */}
-        <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4 lg:gap-5">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
           {catalogItems.map((item, index) => (
             <Link
               key={index}
