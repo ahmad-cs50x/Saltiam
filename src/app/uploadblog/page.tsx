@@ -23,7 +23,7 @@ const UploadBlog = () => {
   const router = useRouter();
 
   // Toolbar Commands
-  const exec = (command, value = null) => {
+  const exec = (command: string, value?: string | null) => {
     document.execCommand(command, false, value);
     contentRef.current?.focus();
   };
@@ -33,11 +33,11 @@ const UploadBlog = () => {
     if (url) exec('createLink', url);
   };
 
-  const insertImage = (e) => {
-    const file = e.target.files[0];
+  const insertImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = (ev) => exec('insertImage', ev.target.result);
+    reader.onload = (ev) => exec('insertImage', ev.target?.result as string);
     reader.readAsDataURL(file);
   };
 
@@ -223,7 +223,7 @@ const UploadBlog = () => {
                       <p className="mb-2 text-base sm:text-lg text-pink-700 font-semibold">Click to upload banner</p>
                       <p className="text-xs sm:text-sm text-pink-600">PNG, JPG up to 10MB</p>
                     </div>
-                    <input type="file" className="hidden" onChange={(e) => setBannerImage(e.target.files[0])} accept="image/*" />
+                    <input type="file" className="hidden" onChange={(e) => setBannerImage(e.target.files?.[0])} accept="image/*" />
                   </label>
                 </div>
                 {bannerImage && (

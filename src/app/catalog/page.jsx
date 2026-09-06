@@ -23,7 +23,7 @@ const Catalog = () => {
       <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-10 text-center sm:mb-12">
-          <div ClassName="flex flex-row" >
+          <div className="flex flex-row" >
             {/* <Link
               href="/"
               className="flex flex-row mr-26 items-center text-xl font-semibold text-rose-700 hover:text-rose-800"

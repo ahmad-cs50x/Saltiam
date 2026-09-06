@@ -1,7 +1,7 @@
 'use client';
 import Logo from "./Logo.jsx";
 import Link from 'next/link';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter, usePathname } from 'next/navigation';
 import { IoSearchOutline } from "react-icons/io5";
@@ -15,12 +15,13 @@ const Header = () => {
   const [isDeliverOpen, setIsDeliverOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
-  
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState('');
   const { data: session, status } = useSession();
   const [hasShownSignInToast, setHasShownSignInToast] = useState(false);
-  const [hasRedirected, setHasRedirected] = useState(false);
+  // Use ref instead of state so the redirect flag persists across component re-mounts
+  const hasRedirectedRef = useRef(false);
   const [deliveryLocation, setDeliveryLocation] = useState(null);
   const SUPER_USER_EMAIL = 'ranaahmadranaahmad741@gmail.com';
   const pathname = usePathname();
@@ -37,12 +38,12 @@ const Header = () => {
       setIsLoggedIn(true);
       setUserName(name || 'User');
     }
-    // Auto‑redirect super user to the secret panel.
-    if (status === 'authenticated' && session?.user?.email === SUPER_USER_EMAIL && !hasRedirected && pathname !== '/secretpanel') {
+    // Auto‑redirect super user to the secret panel (use ref to prevent re-trigger on nav).
+    if (status === 'authenticated' && session?.user?.email === SUPER_USER_EMAIL && !hasRedirectedRef.current && pathname !== '/secretpanel') {
+      hasRedirectedRef.current = true;
       router.push('/secretpanel');
-      setHasRedirected(true);
     }
-  }, [status, session, pathname, hasRedirected]);
+  }, [status, session, pathname]);
 
   // Show toast once when NextAuth reports an authenticated session
   useEffect(() => {
