@@ -57,3 +57,4 @@ coverage/
 *.p12
 *.jks
 .env.example
+.env.example
