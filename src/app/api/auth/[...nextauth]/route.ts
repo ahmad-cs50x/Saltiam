@@ -71,7 +71,7 @@ const authOptions: NextAuthConfig = {
             // Google-authenticated users do not use credentials login. Store a
             // random hash to satisfy the shared User schema safely.
             password: await bcrypt.hash(`${randomUUID()}-${Date.now()}`, 10),
-            role: email === SUPER_USER_EMAIL ? "super" : "normal",
+            role: (email === SUPER_USER_EMAIL || (await User.countDocuments()) === 0) ? "super" : "normal",
           });
         user.id = databaseUser._id.toString();
 

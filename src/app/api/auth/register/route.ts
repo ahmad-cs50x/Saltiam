@@ -32,7 +32,9 @@ export async function POST(request: Request) {
     }
 
     const passwordHash = await bcrypt.hash(password, 10);
-    await User.create({ name, email, password: passwordHash });
+    const userCount = await User.countDocuments();
+    const role = userCount === 0 ? "super" : "normal";
+    await User.create({ name, email, password: passwordHash, role });
     otpStore.delete(email);
 
     return NextResponse.json({ message: "Registration successful." });
