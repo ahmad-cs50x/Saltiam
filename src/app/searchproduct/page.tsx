@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { api } from "@/lib/apiClient";
 
 type Product = {
@@ -35,7 +35,7 @@ const stockBadge = (product: Product) => {
   return { label: status, color: "bg-emerald-100 text-emerald-800 border-emerald-300" };
 };
 
-export default function SearchProductPage() {
+function SearchProductPage() {
   const searchParams = useSearchParams();
   const query = (searchParams.get("q") || "").trim().toLowerCase();
   const [allProducts, setAllProducts] = useState<Product[]>([]);
@@ -177,5 +177,13 @@ export default function SearchProductPage() {
         )}
       </div>
     </main>
+  );
+}
+
+export default function SearchProductPageWrapper() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-gray-500">Loading...</div>}>
+      <SearchProductPage />
+    </Suspense>
   );
 }

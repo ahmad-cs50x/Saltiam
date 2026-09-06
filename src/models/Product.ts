@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Document, InferSchemaType } from 'mongoose';
 
 const productSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -13,4 +13,8 @@ const productSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now }
 });
 
-export default mongoose.models.Product || mongoose.model('Product', productSchema);
+export type ProductType = InferSchemaType<typeof productSchema> & Document;
+
+const ProductModel = (mongoose.models.Product || mongoose.model('Product', productSchema)) as mongoose.Model<ProductType>;
+
+export default ProductModel;

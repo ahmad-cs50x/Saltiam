@@ -14,7 +14,7 @@ const EditBlog = () => {
   const imgInputRef = useRef<HTMLInputElement>(null);
   const spacingMenuRef = useRef<HTMLSelectElement>(null);
   const [fontSize, setFontSize] = useState(18);
-  const [bannerImage, setBannerImage] = useState<string | null>(null);
+  const [bannerImage, setBannerImage] = useState<string | File | null>(null);
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
   const [blog, setBlog] = useState<any>(null);
@@ -70,10 +70,12 @@ const EditBlog = () => {
     const rows = prompt('Number of rows?', '3');
     const cols = prompt('Number of columns?', '3');
     if (!rows || !cols) return;
+    const rowCount = parseInt(rows, 10);
+    const colCount = parseInt(cols, 10);
     let table = '<table class="w-full border-collapse border border-pink-300 my-6">';
-    for (let i = 0; i < rows; i++) {
+    for (let i = 0; i < rowCount; i++) {
       table += '<tr>';
-      for (let j = 0; j < cols; j++) {
+      for (let j = 0; j < colCount; j++) {
         table += '<td class="border border-pink-300 px-4 py-3 min-h-[40px]">Cell</td>';
       }
       table += '</tr>';
@@ -82,13 +84,13 @@ const EditBlog = () => {
     exec('insertHTML', table);
   };
 
-  const changeFontSize = (delta) => {
+  const changeFontSize = (delta: number) => {
     const newSize = Math.max(12, Math.min(72, fontSize + delta));
     setFontSize(newSize);
     exec('fontSize', '7');
     document.querySelectorAll('font[size="7"]').forEach(el => {
       el.removeAttribute('size');
-      el.style.fontSize = `${newSize}px`;
+      (el as HTMLElement).style.fontSize = `${newSize}px`;
     });
   };
 
@@ -96,30 +98,30 @@ const EditBlog = () => {
   useEffect(() => {
     const menu = spacingMenuRef.current;
     if (!menu) return;
-    const handleChange = (e) => {
-      const val = e.target.value;
+    const handleChange = (e: Event) => {
+      const val = (e.target as HTMLSelectElement).value;
       if (val === '_space-before') {
         exec('formatBlock', '<p>');
         document.execCommand('outdent');
         document.querySelectorAll('p, div, li').forEach(el => {
-          el.style.marginTop = '1.5rem';
+          (el as HTMLElement).style.marginTop = '1.5rem';
         });
       } else if (val === '_space-after') {
         document.querySelectorAll('p, div, li').forEach(el => {
-          el.style.marginBottom = '1.5rem';
+          (el as HTMLElement).style.marginBottom = '1.5rem';
         });
       } else if (val) {
         document.querySelectorAll('p, div, li, h1, h2, h3').forEach(el => {
-          el.style.lineHeight = val;
+          (el as HTMLElement).style.lineHeight = val;
         });
       }
-      e.target.value = '';
+      (e.target as HTMLSelectElement).value = '';
     };
     menu.addEventListener('change', handleChange);
     return () => menu.removeEventListener('change', handleChange);
   }, []);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!titleRef.current?.innerText.trim()) {
       alert('Please add a title!');
@@ -127,8 +129,8 @@ const EditBlog = () => {
     }
     setLoading(true);
     const formData = new FormData();
-    formData.append('title', titleRef.current.innerHTML);
-    formData.append('content', contentRef.current.innerHTML);
+    formData.append('title', titleRef.current?.innerHTML || '');
+    formData.append('content', contentRef.current?.innerHTML || '');
     if (bannerImage) {
       if (typeof bannerImage === 'string') {
         // existing image filename
@@ -221,7 +223,6 @@ const EditBlog = () => {
                   ref={titleRef}
                   contentEditable
                   className="w-full p-4 sm:p-6 text-3xl sm:text-4xl font-bold text-center text-gray-800 bg-gradient-to-r from-pink-50 to-rose-50 rounded-2xl border-2 border-dashed border-pink-300 focus:outline-none focus:border-pink-500 transition-all min-h-[100px] sm:min-h-[120px]"
-                  placeholder="Enter your amazing title..."
                 />
               </div>
               {/* Content */}
@@ -244,7 +245,7 @@ const EditBlog = () => {
                       <p className="mb-2 text-base sm:text-lg text-pink-700 font-semibold">Click to upload new banner</p>
                       <p className="text-xs sm:text-sm text-pink-600">PNG, JPG up to 10MB</p>
                     </div>
-                    <input type="file" className="hidden" onChange={(e) => setBannerImage(e.target.files?.[0])} accept="image/*" />
+                    <input type="file" className="hidden" onChange={(e) => setBannerImage(e.target.files?.[0] ?? null)} accept="image/*" />
                   </label>
                 </div>
                 {bannerImage && (

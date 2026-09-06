@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Document, InferSchemaType } from 'mongoose';
 
 const blogSchema = new mongoose.Schema({
   title: { type: String, required: true },
@@ -12,4 +12,8 @@ const blogSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now }
 });
 
-export default mongoose.models.Blog || mongoose.model('Blog', blogSchema);
+export type BlogType = InferSchemaType<typeof blogSchema> & Document;
+
+const BlogModel = (mongoose.models.Blog || mongoose.model('Blog', blogSchema)) as mongoose.Model<BlogType>;
+
+export default BlogModel;

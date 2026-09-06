@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Document, InferSchemaType } from 'mongoose';
 
 const signInLogSchema = new mongoose.Schema({
   email: { type: String, required: true },
@@ -7,4 +7,8 @@ const signInLogSchema = new mongoose.Schema({
   timestamp: { type: Date, default: Date.now },
 });
 
-export default mongoose.models.SignInLog || mongoose.model('SignInLog', signInLogSchema);
+export type SignInLogType = InferSchemaType<typeof signInLogSchema> & Document;
+
+const SignInLogModel = (mongoose.models.SignInLog || mongoose.model('SignInLog', signInLogSchema)) as mongoose.Model<SignInLogType>;
+
+export default SignInLogModel;

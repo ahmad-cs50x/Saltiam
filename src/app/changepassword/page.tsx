@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "react-toastify";
@@ -136,4 +136,10 @@ const ChangePassword = () => {
   );
 };
 
-export default ChangePassword;
+export default function ChangePasswordPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-pink-700 font-semibold">Loading...</div>}>
+      <ChangePassword />
+    </Suspense>
+  );
+}

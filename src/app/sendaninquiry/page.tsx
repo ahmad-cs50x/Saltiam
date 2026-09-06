@@ -274,7 +274,7 @@ const SendInquiry = () => {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Message *</label>
-                  <textarea name="message" rows="6" required disabled={!isAuthenticated} className="w-full border border-gray-300 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-rose-400 resize-none disabled:bg-gray-100" placeholder="Tell us about your inquiry..."></textarea>
+                  <textarea name="message" rows={6} required disabled={!isAuthenticated} className="w-full border border-gray-300 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-rose-400 resize-none disabled:bg-gray-100" placeholder="Tell us about your inquiry..."></textarea>
                 </div>
                 <button type="submit" disabled={!isAuthenticated} className="w-full bg-rose-600 text-white py-4 rounded-lg font-semibold hover:bg-rose-700 transition-all duration-300 shadow-lg disabled:bg-gray-400 disabled:cursor-not-allowed text-base sm:text-lg">
                   Send Inquiry
@@ -291,7 +291,7 @@ const SendInquiry = () => {
                 width="100%"
                 height="350"
                 style={{ border: 0 }}
-                allowFullScreen=""
+                allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 className="w-full"

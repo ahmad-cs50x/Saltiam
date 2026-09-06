@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Document, InferSchemaType } from 'mongoose';
 
 const reviewSchema = new mongoose.Schema({
   productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
@@ -10,4 +10,8 @@ const reviewSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now }
 });
 
-export default mongoose.models.Review || mongoose.model('Review', reviewSchema);
+export type ReviewType = InferSchemaType<typeof reviewSchema> & Document;
+
+const ReviewModel = (mongoose.models.Review || mongoose.model('Review', reviewSchema)) as mongoose.Model<ReviewType>;
+
+export default ReviewModel;

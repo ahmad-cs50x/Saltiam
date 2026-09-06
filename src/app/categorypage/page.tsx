@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { api } from "@/lib/apiClient";
 
 type Product = {
@@ -31,7 +31,7 @@ const imageSrc = (image?: string) => {
   return image.startsWith("/uploads/") ? image : `/uploads/${image.replace(/^\/?uploads\//, "")}`;
 };
 
-export default function CategoryPage() {
+function CategoryPage() {
   const searchParams = useSearchParams();
   const category = searchParams.get("category") || "";
   const [allProducts, setAllProducts] = useState<Product[]>([]);
@@ -230,5 +230,13 @@ export default function CategoryPage() {
         )}
       </div>
     </main>
+  );
+}
+
+export default function CategoryPageWrapper() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-gray-500">Loading...</div>}>
+      <CategoryPage />
+    </Suspense>
   );
 }

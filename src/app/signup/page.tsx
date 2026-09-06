@@ -29,11 +29,13 @@ const SignUpPage = () => {
       toast.info("🔄 Redirecting to Google...");
       const result = await signIn("google", { 
         callbackUrl: "/",
-        redirect: true 
+        redirect: false 
       });
       
       if (result?.error) {
         toast.error(`❌ Google sign in failed: ${result.error}`);
+      } else if (result?.ok) {
+        router.push("/");
       }
     } catch (error) {
       console.error("Google sign in error:", error);

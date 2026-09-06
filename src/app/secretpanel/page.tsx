@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -266,8 +266,8 @@ const AdminDashboard = () => {
     formData.append('description', productForm.description);
     formData.append('category', productForm.category);
     formData.append('availability', productForm.availability);
-    formData.append('itemsSold', productForm.itemsSold || 0);
-    formData.append('isFeatured', productForm.isFeatured);
+    formData.append('itemsSold', String(productForm.itemsSold || 0));
+    formData.append('isFeatured', String(productForm.isFeatured));
     
     if (productForm.images) {
       for (let i = 0; i < productForm.images.length; i++) {
@@ -723,7 +723,7 @@ const AdminDashboard = () => {
                 <label className="block text-gray-700 font-bold mb-2">Description</label>
                 <textarea 
                   required 
-                  rows="4"
+                  rows={4}
                   className="w-full px-4 text-black py-3 border border-pink-300 rounded-lg focus:ring-2 focus:ring-pink-500 outline-none resize-none"
                   value={productForm.description}
                   onChange={(e) => setProductForm({...productForm, description: e.target.value})}
@@ -766,7 +766,7 @@ const AdminDashboard = () => {
                     type="number" 
                     className="w-full text-black px-4 py-3 border border-pink-300 rounded-lg focus:ring-2 focus:ring-pink-500 outline-none"
                     value={productForm.itemsSold}
-                    onChange={(e) => setProductForm({...productForm, itemsSold: e.target.value})}
+                    onChange={(e) => setProductForm({...productForm, itemsSold: Number(e.target.value)})}
                   />
                 </div>
                 <div className="flex items-center pt-8">
@@ -791,7 +791,7 @@ const AdminDashboard = () => {
                     multiple 
                     accept="image/*"
                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                    onChange={(e) => setProductForm({...productForm, images: e.target.files})}
+                    onChange={(e) => setProductForm({...productForm, images: Array.from(e.target.files || [])})}
                   />
                   <p className="text-pink-600 font-medium">Click to upload images (Max 10)</p>
                   {productForm.images && productForm.images.length > 0 && (
@@ -825,11 +825,11 @@ const AdminDashboard = () => {
               </div>
               <div className="mb-5">
                 <label className="block text-gray-700 font-medium mb-2">New Password</label>
-                <input type="password" value={newPass} onChange={(e) => setNewPass(e.target.value)} required minLength="6" className="w-full px-4 py-3 border border-pink-300 rounded-lg focus:ring-4 focus:ring-pink-200 focus:outline-none" />
+                <input type="password" value={newPass} onChange={(e) => setNewPass(e.target.value)} required minLength={6} className="w-full px-4 py-3 border border-pink-300 rounded-lg focus:ring-4 focus:ring-pink-200 focus:outline-none" />
               </div>
               <div className="mb-6">
                 <label className="block text-gray-700 font-medium mb-2">Confirm New Password</label>
-                <input type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)} required minLength="6" className="w-full px-4 py-3 border border-pink-300 rounded-lg focus:ring-4 focus:ring-pink-200 focus:outline-none" />
+                <input type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)} required minLength={6} className="w-full px-4 py-3 border border-pink-300 rounded-lg focus:ring-4 focus:ring-pink-200 focus:outline-none" />
               </div>
               {error && <p className="text-red-600 text-sm mb-4">{error}</p>}
               <div className="flex gap-3">
@@ -862,7 +862,7 @@ const AdminDashboard = () => {
             <h2 className="text-2xl font-bold text-pink-700">Verify OTP</h2>
             <p className="text-gray-600 mt-2">We sent a 6-digit code to your email</p>
             <form onSubmit={handleVerifyOTP} className="mt-6">
-              <input type="text" value={otp} onChange={(e) => setOtp(e.target.value)} maxLength="6" required className="w-full text-center text-2xl tracking-widest px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 mb-6" placeholder="000000" />
+              <input type="text" value={otp} onChange={(e) => setOtp(e.target.value)} maxLength={6} required className="w-full text-center text-2xl tracking-widest px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 mb-6" placeholder="000000" />
               {error && <p className="text-red-600 text-sm mb-4">{error}</p>}
               <button type="submit" className="w-full bg-pink-600 text-white font-semibold py-3 rounded-lg hover:bg-pink-700 transition">Verify OTP</button>
             </form>
@@ -876,8 +876,8 @@ const AdminDashboard = () => {
             <h2 className="text-2xl font-bold text-pink-700">Set New Password</h2>
             <p className="text-gray-600 mt-2">Create a strong password for your account</p>
             <form onSubmit={handleSetNewPassword} className="mt-6">
-              <input type="password" value={newPass} onChange={(e) => setNewPass(e.target.value)} required minLength="6" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 mb-4" placeholder="New Password" />
-              <input type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)} required minLength="6" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 mb-6" placeholder="Confirm New Password" />
+              <input type="password" value={newPass} onChange={(e) => setNewPass(e.target.value)} required minLength={6} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 mb-4" placeholder="New Password" />
+              <input type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)} required minLength={6} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 mb-6" placeholder="Confirm New Password" />
               {error && <p className="text-red-600 text-sm mb-4">{error}</p>}
               <button type="submit" className="w-full bg-pink-600 text-white font-semibold py-3 rounded-lg hover:bg-pink-700 transition">Reset Password</button>
             </form>
@@ -888,4 +888,10 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard;
+export default function AdminDashboardPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-pink-700 font-semibold">Loading...</div>}>
+      <AdminDashboard />
+    </Suspense>
+  );
+}
